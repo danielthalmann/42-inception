@@ -18,6 +18,21 @@ sudo apt update && sudo apt-get install docker-ce docker-ce-cli containerd.io
 ```bash
 sudo usermod -aG docker dthalman
 ```
+## installation du docker-compose
+
+```
+ DOCKER_CONFIG=${DOCKER_CONFIG:-$HOME/.docker}
+
+ mkdir -p $DOCKER_CONFIG/cli-plugins
+
+ curl -SL https://github.com/docker/compose/releases/download/v2.13.0/docker-compose-linux-x86_64 -o $DOCKER_CONFIG/cli-plugins/docker-compose
+```
+
+```
+chmod +x $DOCKER_CONFIG/cli-plugins/docker-compose
+```
+
+
 
 ## creation de la clee ssl
 
@@ -70,3 +85,21 @@ docker pull hello-world
 ```
 docker system prune
 ```
+
+# Produire un fichier Dockerfile
+
+Docker, vous savez utiliser les instructions suivantes :
+
+```FROM``` permet de définir l'image source 
+
+```RUN``` permet d’exécuter des commandes dans votre conteneur
+
+```ADD``` permet d'ajouter des fichiers dans votre conteneur ;
+
+```WORKDIR``` permet de définir votre répertoire de travail ;
+
+```EXPOSE``` qui permet de définir les ports d'écoute par défaut ;
+
+```VOLUME``` qui permet de définir les volumes utilisables ;
+
+```CMD``` permet de définir la commande par défaut lors de l’exécution de vos conteneurs Docker.
