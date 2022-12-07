@@ -1,16 +1,36 @@
 
 # Installation du docker sur debian
 
-## ajout des packages docker
+## ajout des packages pour docker
 
 ```bash
-sudo apt-get update && sudo apt-get install apt-transport-https ca-certificates curl gnupg2 software-properties-common
+ sudo apt-get update
+ sudo apt-get install \
+    ca-certificates \
+    curl \
+    gnupg \
+    lsb-release
+```
 
-curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add -
+Installation de la clé GPG
 
-sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/debian $(lsb_release -cs) stable"
+```bash
+sudo mkdir -p /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+```
 
-sudo apt update && sudo apt-get install docker-ce docker-ce-cli containerd.io
+Ajoute de repository de docker
+
+```bash
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian \
+  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+```
+
+Mise en place des packages docker
+
+```bash
+sudo apt update && sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin
 ```
 
 ## droit d'utilisation de la commande docker
