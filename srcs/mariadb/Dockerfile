@@ -1,14 +1,9 @@
 FROM debian:buster
 
-RUN apt update
-RUN apt install -y mariadb-server mariadb-client
+RUN apt update && \
+	apt install -y mariadb-server mariadb-client
 
 EXPOSE 3306
+VOLUME /var/lib/mysql
 
-LABEL version="1.0"
-LABEL description="MariaDB Server"
-
-HEALTHCHECK --start-period=5m \
-  CMD mariadb -e 'SELECT @@datadir;' || exit 1
-
-CMD ["mysqld"]
+CMD ["mysqld_safe"]
