@@ -123,3 +123,6 @@ Docker, vous savez utiliser les instructions suivantes :
 ```VOLUME``` qui permet de définir les volumes utilisables ;
 
 ```CMD``` permet de définir la commande par défaut lors de l’exécution de vos conteneurs Docker.
+
+
+Le fichier .dockerignore permet d'igniorer certain fichier dans le container
