@@ -3,9 +3,14 @@ FROM debian:buster
 RUN apt update && \
 	apt install -y nginx
 
-ADD ./config/nginx.conf /etc/nginx/nginx.conf 
+RUN mkdir -p /var/www ; mkdir -p /var/log/nginx
 
-EXPOSE 80
-VOLUME /usr/share/nginx/html/
+ADD ./config/nginx.conf /etc/nginx/nginx.conf 
+ADD ./config/fastcgi.conf /etc/nginx/fastcgi.conf 
+ADD ./config/mime.types /etc/nginx/mime.types 
+ADD ./config/proxy.conf /etc/nginx/proxy.conf 
+
+EXPOSE 8000
+VOLUME /var/www
 
 CMD ["nginx", "-g", "daemon off;"]
