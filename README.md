@@ -203,6 +203,8 @@ chmod +x $DOCKER_CONFIG/cli-plugins/docker-compose
 
 docker-compose up -d vous permettra de démarrer l'ensemble des conteneurs en arrière-plan 
 
+-f permet de spécifier le lieu du fichier docker-compose.yaml
+
 ### ps
 
 docker-compose ps vous permettra de voir le statut de l'ensemble de votre stack 

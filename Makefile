@@ -12,7 +12,8 @@ wordpress:
 	docker build -t wordpress ./src/wordpress
 
 run-nginx:
-	docker run -d -p 80:80 nginx
+	docker run -d -p 443:443 nginx
+	docker ps
  
 build:
 	docker-compose build

@@ -1,19 +1,16 @@
 version: '3'
+
 services:
 
   nginx:
-    container_name: mariadb
+    container_name: nginx
     build: 
-      context: mariadb
+      context: nginx
     volumes:
-      - db_data:/var/lib/mysql
+      - web_data:/var/www
+    networks:
+      - net
     restart: unless-stopped
-
-    environment:
-      MYSQL_ROOT_PASSWORD: somewordpress
-      MYSQL_DATABASE: wordpress
-      MYSQL_USER: wordpress
-      MYSQL_PASSWORD: wordpress
 
   mariadb:
     container_name: mariadb
@@ -21,13 +18,14 @@ services:
       context: mariadb
     volumes:
       - db_data:/var/lib/mysql
-    restart: unless-stopped
-
+    restart: unless-stopped 
+    networks:
+      - net
     environment:
-      MYSQL_ROOT_PASSWORD: somewordpress
-      MYSQL_DATABASE: wordpress
-      MYSQL_USER: wordpress
-      MYSQL_PASSWORD: wordpress
+      MARIADB_ROOT_PASSWORD: somewordpress
+      MARIADB_DATABASE: wordpress
+      MARIADB_USER: wordpress
+      MARIADB_PASSWORD: wordpress
 
   wordpress:
     container_name: wordpress
@@ -39,11 +37,32 @@ services:
     ports:
       - "8000:80"
     restart: unless-stopped
+    networks:
+      - net
+    volumes:
+      - web_data:/var/ww  w
     environment:
       WORDPRESS_DB_HOST: mariadb:3306
       WORDPRESS_DB_USER: wordpress
       WORDPRESS_DB_PASSWORD: wordpress
       WORDPRESS_DB_NAME: wordpress
 
+# il n'est pas nécessaire de défini un réseau. 
+# Il y en a un qui est créé automatiquement sous le nom de myapp_default
+
+networks:
+  net:
+
+# https://docs.docker.com/compose/compose-file/#volumes
+
 volumes:
-  db_data : {
+  db_data:
+    driver: local
+    driver_opts:
+      device: ~/database
+      type: volume
+  web-data:
+    driver: local
+    driver_opts:
+      device: ~/wordpress
+      type: volume
