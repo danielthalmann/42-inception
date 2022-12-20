@@ -1,11 +1,27 @@
 version: '3'
 services:
-  mariadb:
-    build: mariadb/
+
+  nginx:
     container_name: mariadb
+    build: 
+      context: mariadb
     volumes:
       - db_data:/var/lib/mysql
-    restart: always
+    restart: unless-stopped
+
+    environment:
+      MYSQL_ROOT_PASSWORD: somewordpress
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD: wordpress
+
+  mariadb:
+    container_name: mariadb
+    build: 
+      context: mariadb
+    volumes:
+      - db_data:/var/lib/mysql
+    restart: unless-stopped
 
     environment:
       MYSQL_ROOT_PASSWORD: somewordpress
@@ -14,13 +30,15 @@ services:
       MYSQL_PASSWORD: wordpress
 
   wordpress:
+    container_name: wordpress
+    build: 
+      context: wordpress
     depends_on:
       - mariadb
-    build: wordpress/
-    container_name: wordpress
+      - nginx
     ports:
       - "8000:80"
-    restart: always
+    restart: unless-stopped
     environment:
       WORDPRESS_DB_HOST: mariadb:3306
       WORDPRESS_DB_USER: wordpress
@@ -28,4 +46,4 @@ services:
       WORDPRESS_DB_NAME: wordpress
 
 volumes:
-  db_data : {}
+  db_data : {

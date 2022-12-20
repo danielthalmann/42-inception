@@ -220,6 +220,20 @@ docker-compose down vous permettra de détruire l'ensemble des ressources d'une
 
 docker-compose config vous permettra de valider la syntaxe de votre fichier docker-compose.yml 
 
+## paramètre du docker-compose
+
+### restart 
+
+définit la politique de redémarrage lors de l'arrêt du conteneur.
+
+  no : stratégie par défaut. Ne redémarre en aucun cas le conteneur.
+  always : redémarre toujours le conteneur jusqu'à sa suppression.
+  on-failure : redémarre un conteneur si le code de sortie indique une erreur.
+  unless-stopped : redémarre un conteneur quel que soit le code de sortie, mais arrête de redémarrer lorsque le service est arrêté ou supprimé.
+
+## container_name 
+
+est une chaîne qui spécifie un nom de conteneur personnalisé, plutôt qu'un nom par défaut généré.
 
 # nginx
 
