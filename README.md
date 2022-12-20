@@ -46,6 +46,9 @@ On doit mettre en place :
     - [stop](#stop)
     - [down](#down)
     - [config](#config)
+  - [paramètre du docker-compose](#paramètre-du-docker-compose)
+    - [restart](#restart)
+  - [container\_name](#container_name)
 - [nginx](#nginx)
   - [creation de la clee ssl pour le serveur](#creation-de-la-clee-ssl-pour-le-serveur)
 
@@ -244,5 +247,6 @@ openssl req -newkey rsa:4096 \
             -sha256 \
             -days 3650 \
             -nodes \
-            -out example.crt \
-            -keyout dthalman.key
+            -out dthalman.crt \
+            -keyout dthalman.key \
+            -subj "/C=CH/ST=Lausanne/L=Renens/O=42/OU=42/CN=dthalman.42.fr/UID=dthalman"
