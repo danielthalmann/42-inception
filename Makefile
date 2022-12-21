@@ -15,6 +15,11 @@ run-nginx:
 	docker run -d -p 443:443 nginx
 	docker ps
  
+run-mariadb:
+	docker run -d -p 3306:3306 mariadb
+	docker ps
+ 
+
 build:
 	docker-compose build
 

@@ -1,21 +1,15 @@
 #!/usr/bin/env bash
 
 # controle si la bd est deja cree
-cat /tmp/database.sql 2> /dev/null
-
-# $? valeur de retour
-if [ $? -eq 0 ]; then
+if [ -e /tmp/database.sql ]; then
 	
-	usr/bin/mysqld_safe 
+    if [ -z "$MARIADB_DATABASE" ]; then
 
-else
-
-    if [ -z $MARIADB_DATABASE  ]; then
-
-        echo "no config variables"
+        echo "[-] no config variables"
 
     else
 
+        echo "[+] create database"
 
         # Utiliser mysql_embedded pour executer un script sans démarrer le serveur
         # https://mariadb.com/de/resources/blog/using-mysql_embedded-and-mysqld-bootstrap-to-tinker-with-privilege-tables/  
@@ -28,7 +22,21 @@ else
             
         fi
     fi
+
+else
+
+    echo "[+] database created"
+
 fi
 
-# Lancement du serveur 
-usr/bin/mysqld_safe
+if [ -e /usr/bin/mysqld_safe ]; then
+
+   echo "[+] start server mariadb"
+    # Lancement du serveur 
+    /usr/bin/mysqld_safe
+
+else
+
+    echo "[-] Server not installed"
+
+fi
