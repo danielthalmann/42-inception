@@ -19,17 +19,12 @@ wordpress:
 	$(DOCKER) build -t wordpress ./src/wordpress
 
 run-nginx:
-	$(DOCKER) run -d -p 443:443 nginx
+	$(DOCKER) run -d -p 443:443 -p 80:80 nginx
 	$(DOCKER) ps
  
 run-mariadb:
 	$(DOCKER) run -d -p 3306:3306 mariadb
 	$(DOCKER) ps
-
-run-nginx:
-	$(DOCKER) run -d -p 3306:3306 nginx
-	$(DOCKER) ps
-
 
 make-folder:
 	mkdir -p $(WEB_VOLUME)
@@ -62,12 +57,13 @@ down:
 config:
 	$(DOCKER) compose $(DCOMPOSE_FILE) config 
 
+prune: 
+	$(DOCKER) system prune --volumes --all --force
 
 clean: down
 
-fclean: clean
-	$(DOCKER) system prune --volumes --all --force
-
+fclean: clean prune
+	
 test:
 	DOCKER2=$(DOCKER)
 	echo $$DOCKER2
