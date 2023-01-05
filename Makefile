@@ -61,6 +61,8 @@ prune:
 	$(DOCKER) system prune --volumes --all --force
 
 clean: down
+	sudo rm -fr $(WEB_VOLUME)
+	sudo rm -fr $(DB_VOLUME)
 
 fclean: clean prune
 	

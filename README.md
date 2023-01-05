@@ -115,6 +115,7 @@ docker stop ID_RETOURNÉ_LORS_DU_DOCKER_RUN
 
 ## exec : utilisation bash dans le container
 
+```bash
 docker exec -ti ID_RETOURNÉ_LORS_DU_DOCKER_RUN bash
 
 -ti permet d'avoir un shell bash pleinement opérationnel

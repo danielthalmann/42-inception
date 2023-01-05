@@ -37,6 +37,4 @@ RUN		cd /var/www && \
 
 WORKDIR /var/www
 
-VOLUME /var/www
-
-
+ENTRYPOINT ["sh", "/tmp/entrypoint.sh"]

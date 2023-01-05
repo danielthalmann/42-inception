@@ -2,10 +2,12 @@
 
 # si tu ne trouve pas "fichier" alors
 if [ ! -e "/var/www/wp-config.php" ]; then
-	cp /config/wp-config ./wp-config.php
+	cp /var/www/config/wp-config /var/www/wp-config.php
 
 	# attend sur la base de donnée 
 	/wait-fot-it $WORDPRESS_DB_HOST
+
+	cd /var/www/
 
 	# Configuration du site wordpress
 	# wp commande wordpress

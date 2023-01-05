@@ -15,6 +15,9 @@ if [ -e /tmp/database.sql ]; then
         # https://mariadb.com/de/resources/blog/using-mysql_embedded-and-mysqld-bootstrap-to-tinker-with-privilege-tables/  
         eval "echo \"$(cat /tmp/database.sql)\"" | mysql_embedded
 
+        # applique les droits sur le répertoire de la base de donnée
+        chown -R mysql:mysql /var/lib/mysql
+
         if [ $? -eq 0 ]; then
 
             # si y a pas d'erreur, on supprime le script
