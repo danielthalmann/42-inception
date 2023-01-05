@@ -15,9 +15,10 @@ if [ ! -e "/var/www/wp-config.php" ]; then
 	#wp plugin install redis-cache --activate
 	wp-cli.phar plugin update --all
 
-	# Installation de notre theme et "activation"
+	# Installation d'un theme et activation ce celui-ci
 	wp-cli.phar theme install twentysixteen --activate
 
+	# création d'un utilisateur
 	wp-cli.phar user create $WORDPRESS_USER $WORDPRESS_USER_EMAIL --role=editor --user_pass=$WORDPRESS_USER_PASSWORD
 
 	# Creation d'un article pour l'example (change number)

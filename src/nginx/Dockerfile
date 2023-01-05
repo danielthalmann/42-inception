@@ -30,7 +30,8 @@ RUN mkdir -p /etc/nginx/ssl && \
 
 # indique le port exposé
 
-EXPOSE 8000
+EXPOSE 80
+EXPOSE 443
 
 # indique le volume dans le container
 

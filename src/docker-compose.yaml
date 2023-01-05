@@ -4,33 +4,40 @@ services:
 
   nginx:
     container_name: nginx
+    image: nginx
     build: 
-      context: nginx
+      context: ./nginx
     volumes:
-      - web_data:/var/www
+      - web_data:/var/www:rw
     networks:
       - net
     restart: unless-stopped
 
   mariadb:
     container_name: mariadb
+    image: mariadb
     build: 
-      context: mariadb
+      context: ./mariadb
     volumes:
-      - db_data:/var/lib/mysql
+      - db_data:/var/lib/mysql:rw
+    ports:
+      - "3306:3306"
     restart: unless-stopped 
     networks:
       - net
     environment:
-      MARIADB_ROOT_PASSWORD: somewordpress
-      MARIADB_DATABASE: wordpress
-      MARIADB_USER: wordpress
-      MARIADB_PASSWORD: wordpress
+      MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD} 
+      MARIADB_DATABASE: ${MARIADB_DATABASE} 
+      MARIADB_USER: ${MARIADB_USER} 
+      MARIADB_PASSWORD: ${MARIADB_PASSWORD} 
 
   wordpress:
     container_name: wordpress
+    image: wordpress
     build: 
-      context: wordpress
+      context: ./wordpress
+    volumes:
+      - web_data:/var/www:rw
     depends_on:
       - mariadb
       - nginx
@@ -39,18 +46,16 @@ services:
     restart: unless-stopped
     networks:
       - net
-    volumes:
-      - web_data:/var/ww  w
     environment:
-      WORDPRESS_DB_HOST: mariadb:3306
-      WORDPRESS_URL: dthalman.42.fr
-      WORDPRESS_TITLE: Inception
-      WORDPRESS_ADMIN_USER: wordpress
-      WORDPRESS_ADMIN_PASSWORD: wordpress
-      WORDPRESS_ADMIN_EMAIL: admin@student.42lausanne.ch
-      WORDPRESS_USER: wordpress
-      WORDPRESS_USER_EMAIL: dthalman@student.42lausanne.ch
-      WORDPRESS_USER_PASSWORD: wordpress
+      WORDPRESS_DB_HOST: ${WORDPRESS_DB_HOST}
+      WORDPRESS_URL: ${WORDPRESS_URL}
+      WORDPRESS_TITLE: ${WORDPRESS_TITLE}
+      WORDPRESS_ADMIN_USER: ${WORDPRESS_ADMIN_USER}
+      WORDPRESS_ADMIN_PASSWORD: ${WORDPRESS_ADMIN_PASSWORD}
+      WORDPRESS_ADMIN_EMAIL: ${WORDPRESS_ADMIN_EMAIL}
+      WORDPRESS_USER: ${WORDPRESS_USER}
+      WORDPRESS_USER_EMAIL: ${WORDPRESS_USER_EMAIL}
+      WORDPRESS_USER_PASSWORD: ${WORDPRESS_USER_PASSWORD}
 
 # il n'est pas nécessaire de défini un réseau. 
 # Il y en a un qui est créé automatiquement sous le nom de myapp_default
@@ -64,10 +69,12 @@ volumes:
   db_data:
     driver: local
     driver_opts:
-      device: ~/database
+      device: '${DB_VOLUME}'
       type: volume
-  web-data:
+      o: bind
+  web_data:
     driver: local
     driver_opts:
-      device: ~/wordpress
+      device: '${WEB_VOLUME}'
       type: volume
+      o: bind

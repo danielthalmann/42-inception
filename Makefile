@@ -1,29 +1,77 @@
 
+# --env-file permet de modifier le chemin d'environnement
+ENV_FILE		= .env
+DCOMPOSE_FILE	= -f src/docker-compose.yaml --env-file $(ENV_FILE)
+DOCKER			= docker
 
-all: build
+# include environement variables
+include $(ENV_FILE)
+
+all: run
 
 mariadb:
-	docker build -t mariadb ./src/mariadb
+	$(DOCKER) build -t mariadb ./src/mariadb
 
 nginx:
-	docker build -t nginx ./src/nginx
+	$(DOCKER) build -t nginx ./src/nginx
 
 wordpress:
-	docker build -t wordpress ./src/wordpress
+	$(DOCKER) build -t wordpress ./src/wordpress
 
 run-nginx:
-	docker run -d -p 443:443 nginx
-	docker ps
+	$(DOCKER) run -d -p 443:443 nginx
+	$(DOCKER) ps
  
 run-mariadb:
-	docker run -d -p 3306:3306 mariadb
-	docker ps
- 
+	$(DOCKER) run -d -p 3306:3306 mariadb
+	$(DOCKER) ps
 
-build:
-	docker-compose build
+run-nginx:
+	$(DOCKER) run -d -p 3306:3306 nginx
+	$(DOCKER) ps
 
-tail:
-	docker compose -f srcs/docker-compose.yml up --build
+
+make-folder:
+	mkdir -p $(WEB_VOLUME)
+	mkdir -p $(DB_VOLUME)
+
+# Create and start containers
+# --detach , -d		Detached mode: Run containers in the background
+run: make-folder
+	$(DOCKER) compose $(DCOMPOSE_FILE) up -d
+
+# Build or rebuild services
+build: make-folder
+	$(DOCKER) compose $(DCOMPOSE_FILE) build
+
+# List containers
+ps:
+	$(DOCKER) compose $(DCOMPOSE_FILE) ps
+
+# Stop services
+stop:
+	$(DOCKER) compose $(DCOMPOSE_FILE) stop
+
+# Stop and remove containers, networks
+# --rmi		Remove images used by services. 
+#			"local" remove only images that don't have a custom tag ("local"|"all")
+down:
+	$(DOCKER) compose $(DCOMPOSE_FILE) down --rmi local
+
+# verify config file
+config:
+	$(DOCKER) compose $(DCOMPOSE_FILE) config 
+
+
+clean: down
+
+fclean: clean
+	$(DOCKER) system prune --volumes --all --force
+
+test:
+	DOCKER2=$(DOCKER)
+	echo $$DOCKER2
+
+re: fclean all
 
 .phony: all mariadb nginx wordpress
