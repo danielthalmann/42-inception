@@ -18,6 +18,9 @@ nginx:
 wordpress:
 	$(DOCKER) build -t wordpress ./src/wordpress
 
+vsftpd:
+	$(DOCKER) build -t vsftpd ./src/vsftpd
+
 run-nginx:
 	$(DOCKER) run -d -p 443:443 -p 80:80 nginx
 	$(DOCKER) ps
@@ -28,6 +31,10 @@ run-mariadb:
 
 run-wordpress:
 	$(DOCKER) run -d wordpress
+	$(DOCKER) ps
+
+run-vsftpd:
+	$(DOCKER) run -d vsftpd
 	$(DOCKER) ps
 
 make-folder:

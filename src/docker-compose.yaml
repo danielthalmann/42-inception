@@ -9,11 +9,9 @@ services:
       context: ./mariadb
     volumes:
       - db_data:/var/lib/mysql:rw
-    ports:
-      - "3306:3306"
     restart: unless-stopped 
     networks:
-      - net
+      - docker-network
     environment:
       MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD} 
       MARIADB_DATABASE: ${MARIADB_DATABASE} 
@@ -28,7 +26,7 @@ services:
     volumes:
       - web_data:/var/www:rw
     networks:
-      - net
+      - docker-network
     ports:
       - "443:443"
     restart: unless-stopped
@@ -45,7 +43,7 @@ services:
       - nginx
     restart: unless-stopped
     networks:
-      - net
+      - docker-network
     environment:
       WORDPRESS_DB_HOST: ${WORDPRESS_DB_HOST}
       WORDPRESS_URL: ${WORDPRESS_URL}
@@ -64,7 +62,7 @@ services:
 # Il y en a un qui est créé automatiquement sous le nom de myapp_default
 
 networks:
-  net:
+  docker-network:
 
 # https://docs.docker.com/compose/compose-file/#volumes
 
