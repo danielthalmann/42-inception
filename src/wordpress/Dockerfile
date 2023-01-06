@@ -34,11 +34,17 @@ RUN cd /tmp && \
 
 COPY	./entrypoint.sh /
 COPY	./wait-for-it.sh /
+COPY	./config/wp-config.php /tmp
+
+RUN chmod +x /wait-for-it.sh
 
 # RUN cp -r /tmp/wordpress/* /var/www && \
 # 		chown -Rv www-data /var/www 
 
 ENV	WORDPRESS_DB_HOST=${WORDPRESS_DB_HOST} \
+	WORDPRESS_DB_USER=${WORDPRESS_DB_USER} \
+	WORDPRESS_DB_PASSWORD=${WORDPRESS_DB_PASSWORD} \
+	WORDPRESS_DB_NAME=${WORDPRESS_DB_NAME} \
 	WORDPRESS_URL=${WORDPRESS_URL} \
 	WORDPRESS_TITLE=${WORDPRESS_TITLE} \
 	WORDPRESS_ADMIN_USER=${WORDPRESS_ADMIN_USER} \

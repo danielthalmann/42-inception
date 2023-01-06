@@ -3,7 +3,8 @@ FROM debian:buster
 # installation du package mariadb-server
 
 RUN apt update && \
-	apt install -y mariadb-server
+	apt install -y	mariadb-server \
+					mariadb-client
 
 # copie des scripts et de la configuration de la base de donnée
 
