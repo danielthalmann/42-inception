@@ -7,12 +7,12 @@ RUN apt update && \
 
 # copie des scripts et de la configuration de la base de donnée
 
-COPY	./run.sh /
+COPY	./entrypoint.sh /
 COPY 	./config/database.sql /tmp/
 
-# moddification du droit d'execution du script run
+# modification du droit d'execution du script run
 
-RUN 	chmod +x /run.sh 
+RUN 	chmod +x /entrypoint.sh 
 
 # indique le port exposé
 
@@ -24,6 +24,6 @@ ENV MARIADB_DATABASE=${MARIADB_DATABASE} \
 	MARIADB_ROOT_PASSWORD=${MARIADB_ROOT_PASSWORD} \
 	MARIADB_DATABASE=${MARIADB_DATABASE} \
 	MARIADB_USER=${MARIADB_USER} \
-	MARIADB_PASSWORD=${MARIADB_PASSWORD}s 
+	MARIADB_PASSWORD=${MARIADB_PASSWORD}
 
-CMD ["/run.sh"]
+ENTRYPOINT /entrypoint.sh

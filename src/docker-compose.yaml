@@ -2,19 +2,6 @@ version: '3'
 
 services:
 
-  nginx:
-    container_name: nginx
-    image: nginx
-    build: 
-      context: ./nginx
-    volumes:
-      - web_data:/var/www:rw
-    networks:
-      - net
-    ports:
-      - "443:443"
-    restart: unless-stopped
-
   mariadb:
     container_name: mariadb
     image: mariadb
@@ -32,6 +19,19 @@ services:
       MARIADB_DATABASE: ${MARIADB_DATABASE} 
       MARIADB_USER: ${MARIADB_USER} 
       MARIADB_PASSWORD: ${MARIADB_PASSWORD} 
+
+  nginx:
+    container_name: nginx
+    image: nginx
+    build: 
+      context: ./nginx
+    volumes:
+      - web_data:/var/www:rw
+    networks:
+      - net
+    ports:
+      - "443:443"
+    restart: unless-stopped
 
   wordpress:
     container_name: wordpress

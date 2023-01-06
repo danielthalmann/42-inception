@@ -113,12 +113,19 @@ docker run -d -p 8080:80 nginx
 docker stop ID_RETOURNÉ_LORS_DU_DOCKER_RUN
 ```
 
-## exec : utilisation bash dans le container
+## exec : utilisation du bash dans un container démarré
 
 ```bash
 docker exec -ti ID_RETOURNÉ_LORS_DU_DOCKER_RUN bash
+```
 
 -ti permet d'avoir un shell bash pleinement opérationnel
+
+## run : utilisation du bash dans un container qui n'est pas démarré
+
+```bash
+docker run -it --rm --entrypoint bash NOM_DU_CONTAINER
+```
 
 ## ps : afficher les container en cours d'execution
 

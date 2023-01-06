@@ -1,11 +1,24 @@
 #!/usr/bin/env bash
 
+
 # controle si la bd est deja cree
 if [ -e /tmp/database.sql ]; then
+
+    grep -E "bind-address=0.0.0.0" /etc/mysql/mariadb.conf.d/50-mysqld_safe.cnf > /dev/null
+    #$? contient le code de retour de la dernière opération
+
+    #si le retour d erreur et n'est pas egale a 0 alors
+    if [ ! $? -eq 0 ]; then
+
+        # ajout de la configutation pour le serveur
+        printf '\n\nbind-address=0.0.0.0\nport=3306\n' >> /etc/mysql/mariadb.conf.d/50-mysqld_safe.cnf
+
+    fi
 	
     if [ -z "$MARIADB_DATABASE" ]; then
 
         echo "[-] no config variables"
+        echo "no config variables" >> /log.err
 
     else
 
@@ -34,7 +47,7 @@ fi
 
 if [ -e /usr/bin/mysqld_safe ]; then
 
-   echo "[+] start server mariadb"
+    echo "[+] start server mariadb"
     # Lancement du serveur 
     /usr/bin/mysqld_safe
 

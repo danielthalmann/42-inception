@@ -26,6 +26,10 @@ run-mariadb:
 	$(DOCKER) run -d -p 3306:3306 mariadb
 	$(DOCKER) ps
 
+run-wordpress:
+	$(DOCKER) run -d wordpress
+	$(DOCKER) ps
+
 make-folder:
 	mkdir -p $(WEB_VOLUME)
 	mkdir -p $(DB_VOLUME)

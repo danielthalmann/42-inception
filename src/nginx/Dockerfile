@@ -39,4 +39,4 @@ VOLUME /var/www
 
 #  Nginx utilise la directive daemon off pour démarrer le processus en premier plan
 
-CMD ["nginx", "-g", "daemon off;"]
+ENTRYPOINT ["nginx", "-g", "daemon off;"]

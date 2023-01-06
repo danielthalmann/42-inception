@@ -21,20 +21,35 @@ RUN apt update && \
         php7.4-curl \
         php7.4-gd \
         php7.4-xml \
-		php7.4-fpm
+		php7.4-fpm 
 
 RUN mkdir -p /var/www
 
-RUN wget https://wordpress.org/latest.tar.gz -P /tmp && \
-		cd /tmp && \
+RUN cd /tmp && \
+		wget https://wordpress.org/latest.tar.gz -P /tmp && \ 
 		tar xvf latest.tar.gz && \
-		cp -r /tmp/wordpress /var/www && \
-		chown -Rv www-data /var/www 
+		wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar -P /tmp && \
+		mv /tmp/wp-cli.phar /usr/local/bin/wp && \
+		chmod +x /usr/local/bin/wp
 
-RUN		cd /var/www && \
-		wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && \
-		chmod +x wp-cli.phar
+COPY	./entrypoint.sh /
+COPY	./wait-for-it.sh /
+
+# RUN cp -r /tmp/wordpress/* /var/www && \
+# 		chown -Rv www-data /var/www 
+
+ENV	WORDPRESS_DB_HOST=${WORDPRESS_DB_HOST} \
+	WORDPRESS_URL=${WORDPRESS_URL} \
+	WORDPRESS_TITLE=${WORDPRESS_TITLE} \
+	WORDPRESS_ADMIN_USER=${WORDPRESS_ADMIN_USER} \
+	WORDPRESS_ADMIN_PASSWORD=${WORDPRESS_ADMIN_PASSWORD} \
+	WORDPRESS_ADMIN_EMAIL=${WORDPRESS_ADMIN_EMAIL} \
+	WORDPRESS_USER=${WORDPRESS_USER} \
+	WORDPRESS_USER_EMAIL=${WORDPRESS_USER_EMAIL} \
+	WORDPRESS_USER_PASSWORD=${WORDPRESS_USER_PASSWORD}
+
+EXPOSE 9000
 
 WORKDIR /var/www
 
-ENTRYPOINT ["sh", "/tmp/entrypoint.sh"]
+ENTRYPOINT /entrypoint.sh
