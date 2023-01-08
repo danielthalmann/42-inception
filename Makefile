@@ -9,6 +9,9 @@ include $(ENV_FILE)
 
 all: run
 
+shell-mariadb:
+	$(DOCKER) exec -ti mariadb bash
+
 mariadb:
 	$(DOCKER) build -t mariadb ./src/mariadb
 

@@ -1,4 +1,4 @@
-FROM debian:buster
+FROM debian:buster-20221205
 
 RUN apt update && \
     apt upgrade && \
