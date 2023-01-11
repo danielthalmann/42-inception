@@ -25,6 +25,8 @@ services:
       context: ./nginx
     volumes:
       - web_data:/var/www:rw
+    depends_on:
+      - wordpress
     networks:
       - docker-network
     ports:
@@ -40,7 +42,6 @@ services:
       - web_data:/var/www:rw
     depends_on:
       - mariadb
-      - nginx
     restart: unless-stopped
     networks:
       - docker-network
