@@ -3,7 +3,6 @@ FROM debian:buster-20221205
 RUN apt update && \
     apt upgrade && \
     apt -y install wget \
-				   mariadb-client \
 				   tar \
 				   lsb-release \
 				   apt-transport-https \
