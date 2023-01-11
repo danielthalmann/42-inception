@@ -3,6 +3,7 @@ FROM debian:buster-20221205
 RUN apt update && \
     apt -y install wget \
 				   tar \
+				   mariadb-client \
 				   lsb-release \
 				   apt-transport-https \
 				   ca-certificates
