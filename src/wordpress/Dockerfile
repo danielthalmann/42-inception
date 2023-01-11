@@ -35,7 +35,8 @@ COPY	./entrypoint.sh /
 COPY	./wait-for-it.sh /
 COPY	./config/wp-config.php /tmp
 
-RUN chmod +x /wait-for-it.sh
+RUN chmod +x /wait-for-it.sh && \
+	chmod +x /entrypoint.sh
 
 # RUN cp -r /tmp/wordpress/* /var/www && \
 # 		chown -Rv www-data /var/www 

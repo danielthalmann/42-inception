@@ -12,6 +12,9 @@ all: run
 shell-mariadb:
 	$(DOCKER) exec -ti mariadb bash
 
+shell-wordpress:
+	$(DOCKER) exec -ti wordpress bash
+
 mariadb:
 	$(DOCKER) build -t mariadb ./src/mariadb
 
