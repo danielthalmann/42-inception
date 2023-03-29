@@ -26,7 +26,7 @@ if [ -e /tmp/database.sql ]; then
 
         echo "[+] create database"
 
-        /usr/bin/mysqld_safe &
+        /usr/bin/mariadbd-safe &
 
         sleep 1
 
@@ -48,7 +48,7 @@ else
 
 fi
 
-if [ -e /usr/bin/mysqld_safe ]; then
+if [ -e /usr/bin/mariadbd-safe ]; then
 
     echo "[+] start server mariadb"
     # Lancement du serveur 
